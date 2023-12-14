@@ -18,7 +18,7 @@ on:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
   schedule:
-    - cron: '23 12 * * 1'
+    - cron: '38 0 * * 0'
 
 jobs:
   analyze:
@@ -80,3 +80,9 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
+        output: results
+    - uses: actions/upload-artifact@v3
+      with:
+        name: codeql-res
+        path: results
+        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
