@@ -9,7 +9,7 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "Mobb / CodeQL"
+name: "Mobb/CodeQL"
 
 on:
 
@@ -88,6 +88,16 @@ jobs:
         with:
           category: "/language:${{matrix.language}}"
           output: results
+      - uses: actions/upload-artifact@v3
+        with:
+          name: codeql-res
+          path: results
+          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+      - name: Extract tgz
+        uses: ihiroky/extract-action@v1
+        with:
+          file_path: results/codeql-res.zip
+          extract_dir: results
       - name: Run Mobb on the findings and get fixes
         if: always()
         uses: mobb-dev/action@beta0.0.3
